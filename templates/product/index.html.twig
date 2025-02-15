@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container mt-4">
+        <h1>Liste des produits</h1>
+
+        {% if is_granted('ROLE_ADMIN') %}
+            <a href="{{ path('app_product_new') }}" class="btn btn-success mb-3">Ajouter un produit</a>
+        {% endif %}
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Description</th>
+                    <th>Prix (€)</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in products %}
+                    <tr>
+                        <td>{{ product.name }}</td>
+                        <td>{{ product.description }}</td>
+                        <td>{{ product.price }}</td>
+                        <td>
+                            {% if is_granted('product_edit', product) %}
+                                <a href="{{ path('app_product_edit', {'id': product.id}) }}" class="btn btn-warning btn-sm">Modifier</a>
+                            {% endif %}
+                            {% if is_granted('product_delete', product) %}
+                                <form method="post" action="{{ path('app_product_delete', {'id': product.id}) }}" style="display:inline;">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ product.id) }}">
+                                    <button class="btn btn-danger btn-sm" type="submit">Supprimer</button>
+                                </form>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="4" class="text-center">Aucun produit trouvé.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% if is_granted('ROLE_ADMIN') %}
+        <a href="{{ path('product_export_csv') }}" class="btn btn-info mb-3">Exporter CSV</a>
+    {% endif %}
+
+{% endblock %}
