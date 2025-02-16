@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h1 class="mb-0">Liste des clients</h1>
+            {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_MANAGER') %}
+                <a href="{{ path('app_client_new') }}" class="btn btn-success">Ajouter un client</a>
+            {% endif %}
+        </div>
+
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <table class="table table-striped table-hover">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Prénom</th>
+                            <th>Nom</th>
+                            <th>Email</th>
+                            <th>Téléphone</th>
+                            <th>Adresse</th>
+                            <th>Date de création</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for client in clients %}
+                            <tr>
+                                <td>{{ client.firstname }}</td>
+                                <td>{{ client.lastname }}</td>
+                                <td>{{ client.email }}</td>
+                                <td>{{ client.phoneNumber }}</td>
+                                <td>{{ client.address }}</td>
+                                <td>{{ client.createdAt|date('d/m/Y H:i') }}</td>
+                                <td>
+                                    {% if is_granted('client_edit', client) %}
+                                        <a href="{{ path('app_client_edit', {'id': client.id}) }}" class="btn btn-warning btn-sm">Modifier</a>
+                                    {% endif %}
+                                    {% if is_granted('ROLE_ADMIN') %}
+                                        <form method="post" action="{{ path('app_client_delete', {'id': client.id}) }}" style="display:inline;">
+                                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ client.id) }}">
+                                            <button class="btn btn-danger btn-sm" type="submit" onclick="return confirm('Voulez-vous vraiment supprimer ce client ?')">Supprimer</button>
+                                        </form>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="7" class="text-center">Aucun client trouvé.</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

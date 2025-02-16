@@ -23,6 +23,19 @@
 
         {% block javascripts %}
             {% block importmap %}{{ importmap('app') }}{% endblock %}
+
+            <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                    document.querySelectorAll("form button[type='submit']").forEach(button => {
+                        button.addEventListener("click", function (event) {
+                            if (!confirm("Voulez-vous vraiment supprimer ce client ?")) {
+                                event.preventDefault();
+                            }
+                        });
+                    });
+                });
+            </script>
+
         {% endblock %}
     </head>
     <body>
@@ -42,9 +55,11 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ path('app_product_index') }}">Produits</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{#{{ path('client_index') }}#}">Clients</a>
-                        </li>
+                        {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_MANAGER') %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path('app_client_index') }}">Clients</a>
+                            </li>
+                        {% endif %}
                         <li class="nav-item">
                             <a class="nav-link" href="{{ path('app_logout') }}">Déconnexion</a>
                         </li>
