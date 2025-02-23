@@ -7,23 +7,22 @@ use App\Form\ClientType;
 use App\Security\Voter\ClientVoter;
 use App\Repository\ClientRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-
-
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[Route('/client')]
 #[UniqueEntity(fields: ['email'], message: 'Cet email est déjà utilisé.')]
+#[IsGranted('IS_AUTHENTICATED_FULLY')]
 final class ClientController extends AbstractController
 {
     #[Route(name: 'app_client_index', methods: ['GET'])]
     public function index(ClientRepository $clientRepository): Response
     {
-
-        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        $this->denyAccessUnlessGranted(ClientVoter::VIEW, new Client());
 
         return $this->render('client/index.html.twig', [
             'clients' => $clientRepository->findAll(),
@@ -55,6 +54,8 @@ final class ClientController extends AbstractController
     #[Route('/{id}', name: 'app_client_show', methods: ['GET'])]
     public function show(Client $client): Response
     {
+        $this->denyAccessUnlessGranted(ClientVoter::VIEW, $client);
+
         return $this->render('client/show.html.twig', [
             'client' => $client,
         ]);
@@ -63,6 +64,8 @@ final class ClientController extends AbstractController
     #[Route('/{id}/edit', name: 'app_client_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Client $client, EntityManagerInterface $entityManager): Response
     {
+        $this->denyAccessUnlessGranted(ClientVoter::EDIT, $client);
+
         $form = $this->createForm(ClientType::class, $client);
         $form->handleRequest($request);
 
@@ -81,6 +84,8 @@ final class ClientController extends AbstractController
     #[Route('/{id}', name: 'app_client_delete', methods: ['POST'])]
     public function delete(Request $request, Client $client, EntityManagerInterface $entityManager): Response
     {
+        $this->denyAccessUnlessGranted(ClientVoter::DELETE, $client);
+
         if ($this->isCsrfTokenValid('delete'.$client->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($client);
             $entityManager->flush();

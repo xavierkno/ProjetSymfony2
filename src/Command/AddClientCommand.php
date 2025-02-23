@@ -36,7 +36,6 @@ class AddClientCommand extends Command
         /** @var QuestionHelper $helper */
         $helper = $this->getHelper('question');
 
-        // Demande et validation du prénom
         do {
             $firstname = $helper->ask($input, $output, new Question('Prénom : '));
             $violations = $this->validator->validate($firstname, [
@@ -51,7 +50,6 @@ class AddClientCommand extends Command
             }
         } while (count($violations) > 0);
 
-        // Demande et validation du nom
         do {
             $lastname = $helper->ask($input, $output, new Question('Nom : '));
             $violations = $this->validator->validate($lastname, [
@@ -66,7 +64,6 @@ class AddClientCommand extends Command
             }
         } while (count($violations) > 0);
 
-        // Demande et validation de l'email
         do {
             $email = $helper->ask($input, $output, new Question('Email : '));
             $violations = $this->validator->validate($email, [
@@ -74,11 +71,10 @@ class AddClientCommand extends Command
                 new Assert\Email(message: 'L\'email "{{ value }}" n\'est pas valide.'),
             ]);
 
-            // Vérifier l'unicité de l'email en base
             $existingClient = $this->entityManager->getRepository(Client::class)->findOneBy(['email' => $email]);
             if ($existingClient) {
                 $io->error('Cet email est déjà utilisé par un autre client.');
-                continue; // Redemander un email valide
+                continue; 
             }
 
             if (count($violations) > 0) {
@@ -86,7 +82,6 @@ class AddClientCommand extends Command
             }
         } while (count($violations) > 0);
 
-        // Demande et validation du téléphone
         do {
             $phone = $helper->ask($input, $output, new Question('Téléphone : '));
             $violations = $this->validator->validate($phone, [
@@ -101,7 +96,6 @@ class AddClientCommand extends Command
             }
         } while (count($violations) > 0);
 
-        // Demande et validation de l'adresse
         do {
             $address = $helper->ask($input, $output, new Question('Adresse : '));
             $violations = $this->validator->validate($address, [
@@ -112,7 +106,6 @@ class AddClientCommand extends Command
             }
         } while (count($violations) > 0);
 
-        // Création du client
         $client = new Client();
         $client->setFirstname($firstname);
         $client->setLastname($lastname);
@@ -120,7 +113,6 @@ class AddClientCommand extends Command
         $client->setPhoneNumber($phone);
         $client->setAddress($address);
 
-        // Enregistrement en base de données
         $this->entityManager->persist($client);
         $this->entityManager->flush();
 
