@@ -66,35 +66,51 @@ class AddClientCommand extends Command
 
         do {
             $email = $helper->ask($input, $output, new Question('Email : '));
+        
             $violations = $this->validator->validate($email, [
                 new Assert\NotBlank(),
                 new Assert\Email(message: 'L\'email "{{ value }}" n\'est pas valide.'),
             ]);
-
+        
             $existingClient = $this->entityManager->getRepository(Client::class)->findOneBy(['email' => $email]);
+        
             if ($existingClient) {
                 $io->error('Cet email est déjà utilisé par un autre client.');
-                continue; 
-            }
-
-            if (count($violations) > 0) {
+                $valid = false;
+            } elseif (count($violations) > 0) {
                 $io->error($violations[0]->getMessage());
+                $valid = false;
+            } else {
+                $valid = true; 
             }
-        } while (count($violations) > 0);
+        
+        } while (!$valid);
+        
 
         do {
             $phone = $helper->ask($input, $output, new Question('Téléphone : '));
+        
             $violations = $this->validator->validate($phone, [
                 new Assert\NotBlank(),
                 new Assert\Regex([
                     'pattern' => '/^\+?[0-9 ]+$/',
-                    'message' => 'Le numéro de téléphone doit contenir uniquement des chiffres.',
+                    'message' => 'Le numéro de téléphone doit contenir uniquement des chiffres et espaces.',
                 ])
             ]);
-            if (count($violations) > 0) {
+        
+            $existingPhone = $this->entityManager->getRepository(Client::class)->findOneBy(['phoneNumber' => $phone]);
+        
+            if ($existingPhone) {
+                $io->error('Ce numéro de téléphone est déjà utilisé par un autre client.');
+                $valid = false;
+            } elseif (count($violations) > 0) {
                 $io->error($violations[0]->getMessage());
+                $valid = false;
+            } else {
+                $valid = true;
             }
-        } while (count($violations) > 0);
+        
+        } while (!$valid);
 
         do {
             $address = $helper->ask($input, $output, new Question('Adresse : '));

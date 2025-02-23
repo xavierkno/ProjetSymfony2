@@ -13,13 +13,13 @@ class ClientTest extends TestCase
         $client->setFirstname('Alice');
         $client->setLastname('Dupont');
         $client->setEmail('alice@example.com');
-        $client->setPhoneNumber('+33123456789');
+        $client->setPhoneNumber('0623456789');
         $client->setAddress('123 Rue de Paris');
 
         $this->assertEquals('Alice', $client->getFirstname());
         $this->assertEquals('Dupont', $client->getLastname());
         $this->assertEquals('alice@example.com', $client->getEmail());
-        $this->assertEquals('+33123456789', $client->getPhoneNumber());
+        $this->assertEquals('0623456789', $client->getPhoneNumber());
         $this->assertEquals('123 Rue de Paris', $client->getAddress());
         $this->assertInstanceOf(\DateTimeImmutable::class, $client->getCreatedAt());
     }

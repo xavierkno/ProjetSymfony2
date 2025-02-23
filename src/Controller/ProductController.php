@@ -60,7 +60,6 @@ final class ProductController extends AbstractController
     #[Route('/{id}/edit', name: 'app_product_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Product $product, EntityManagerInterface $entityManager): Response
     {
-        // Vérifie l'accès avec le Voter
         $this->denyAccessUnlessGranted('product_edit', $product);
 
         $form = $this->createForm(ProductType::class, $product);
@@ -81,7 +80,7 @@ final class ProductController extends AbstractController
     #[Route('/{id}', name: 'app_product_delete', methods: ['POST'])]
     public function delete(Request $request, Product $product, EntityManagerInterface $entityManager): Response
     {
-        $this->denyAccessUnlessGranted('product_delete', $product); // Vérifie le droit
+        $this->denyAccessUnlessGranted('product_delete', $product);
 
         if ($this->isCsrfTokenValid('delete'.$product->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($product);
