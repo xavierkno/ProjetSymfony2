@@ -65,6 +65,17 @@ Pour tester uniquement un fichier spécifique :
 php bin/phpunit tests/Voter/VoterTest.php
 ```
 
+### 2️⃣ **Exécuter les commandes personnalisées**
+Importer des produits depuis un fichier CSV :
+```sh
+php bin/console app:import-products
+```
+Ajouter un client via la ligne de commande :
+```sh
+php bin/console app:add-client
+```
+
+
 ## 🌟 **Droits et Auteurs**
 Ce projet a été réalisé par **Xavier Kno**.  
 © 2024 - Tous droits réservés.
