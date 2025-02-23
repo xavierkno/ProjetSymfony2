@@ -69,8 +69,3 @@ Ce projet a été réalisé par **Xavier Kno**.
 
 ---
 
-## 📩 **Contact**
-Si vous avez des questions ou suggestions, contactez-moi sur **GitHub** !
-
----
-
