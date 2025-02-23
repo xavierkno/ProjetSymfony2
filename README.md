@@ -22,28 +22,18 @@ cd ProjetSymfony2
 composer install
 ```
 
-### 3️⃣ **Configurer l’environnement**
-Copiez le fichier `.env` et modifiez les informations de la base de données :
-```sh
-cp .env .env.local
-```
-Modifiez `.env.local` et mettez vos identifiants :
-```
-DATABASE_URL="mysql://root:password@127.0.0.1:3306/nom_de_la_base"
-```
-
-### 4️⃣ **Créer la base de données**
+### 3️⃣ **Créer la base de données**
 ```sh
 php bin/console doctrine:database:create
 php bin/console doctrine:migrations:migrate
 ```
 
-### 5️⃣ **Charger les données de test (fixtures)**
+### 4️⃣ **Charger les données de test (fixtures)**
 ```sh
 php bin/console doctrine:fixtures:load
 ```
 
-### 6️⃣ **Lancer le serveur Symfony**
+### 5️⃣**Lancer le serveur Symfony**
 ```sh
 symfony server:start
 ```
