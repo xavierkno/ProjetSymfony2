@@ -3,6 +3,7 @@
 Bienvenue dans le projet Symfony **Backoffice Entreprise** ! Ce projet permet de gérer les **utilisateurs, clients et produits** via une interface sécurisée.
 
 📌 **Lien du projet sur GitHub :** [ProjetSymfony2](https://github.com/xavierkno/ProjetSymfony2)
+📌 **Lien de la vidéo sur Youtube :** [ProjetSymfony2](https://github.com/xavierkno/ProjetSymfony2)
 
 ---
 
