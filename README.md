@@ -37,10 +37,6 @@ php bin/console doctrine:fixtures:load
 ```sh
 symfony server:start
 ```
-Ou en PHP natif :
-```sh
-php -S 127.0.0.1:8000 -t public
-```
 Le projet est maintenant accessible sur **[http://127.0.0.1:8000](http://127.0.0.1:8000)** 🎉
 
 ---
@@ -64,16 +60,8 @@ php bin/phpunit
 ```
 Pour tester uniquement un fichier spécifique :
 ```sh
-php bin/phpunit tests/Security/Voter/UserVoterTest.php
+php bin/phpunit tests/Voter/VoterTest.php
 ```
-
-### 2️⃣ **Générer un rapport de couverture des tests**
-```sh
-php bin/phpunit --coverage-html coverage/
-```
-Le rapport sera disponible dans le dossier `coverage/`.
-
----
 
 ## 🌟 **Droits et Auteurs**
 Ce projet a été réalisé par **Xavier Kno**.  
@@ -86,4 +74,3 @@ Si vous avez des questions ou suggestions, contactez-moi sur **GitHub** !
 
 ---
 
-🎉 **Merci d'utiliser ce projet ! Bon développement ! 🚀**
