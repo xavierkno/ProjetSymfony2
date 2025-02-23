@@ -4,7 +4,7 @@ Bienvenue dans le projet Symfony **Backoffice Entreprise** ! Ce projet permet de
 
 📌 **Lien du projet sur GitHub :** [ProjetSymfony2](https://github.com/xavierkno/ProjetSymfony2)
 
-📌 **Lien de la vidéo sur Youtube :** (https://github.com/xavierkno/ProjetSymfony2)](https://www.youtube.com/watch?v=I-rXpezHbXs)
+📌 **Lien de la vidéo sur Youtube :** (https://www.youtube.com/watch?v=I-rXpezHbXs)
 
 ---
 
