@@ -3,7 +3,7 @@
 {% block body %}
     <div class="container mt-4">
         <h1>Liste des utilisateurs</h1>
-        <a href="{{ path('user_new') }}" class="btn btn-success mb-3">Ajouter un utilisateur</a>
+        <a href="{{ path('user_new') }}" class="btn bg-primary text-white mb-3">Ajouter un utilisateur</a>
 
         <table class="table table-striped">
             <thead>
@@ -30,7 +30,7 @@
                             {% if is_granted('user_delete', user) %}
                                 <form method="post" action="{{ path('user_delete', {'id': user.id}) }}" style="display:inline;">
                                     <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ user.id) }}">
-                                    <button class="btn btn-danger btn-sm" type="submit">Supprimer</button>
+                                    <button type="submit" class="btn btn-danger btn-sm delete-btn">Supprimer</button>
                                 </form>
                             {% endif %}
                         </td>
